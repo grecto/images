@@ -1003,12 +1003,6 @@
             const navMenu = document.querySelector('.nav-menu');
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
-            // Lock only when menu is active
-            if (navMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden'; // temporary lock when menu is open
-            } else {
-                document.body.style.overflow = 'auto'; // unlock when menu closes
-            }
         }
 
         function showPage(pageId) {
