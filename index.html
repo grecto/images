@@ -41,7 +41,7 @@
             letter-spacing: 1px;
         }
 
-        .nav-right {
+        .-right {
             display: flex;
             align-items: center;
             gap: 20px;
@@ -127,10 +127,13 @@
             display: none;
             min-height: 100vh;
             padding-top: 60px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .page.active {
             display: block;
+            opacity: 1;
         }
 
         /* Homepage Styles */
@@ -584,13 +587,15 @@
 <body>
     <!-- Navigation Bar - Hamburger Menu -->
     <nav class="navbar" id="mainNavbar">
-        <div class="logo">JOSE RIZAL</div>
+    <div class="logo">JOSE RIZAL</div>
+    <div class="nav-right">
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Navigation Menu -->
     <div class="nav-menu">
@@ -983,7 +988,6 @@
                 </div>
             </div>
             
-                </a>
             </div>
         </div>
     </div>
@@ -995,6 +999,8 @@
             const navMenu = document.querySelector('.nav-menu');
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
+            document.body.style.overflow =
+            navMenu.classList.contains('active') ? 'hidden' : 'auto';
         }
 
         function showPage(pageId) {
@@ -1044,7 +1050,7 @@
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-            
+        showPage('homepage');  
     </script>
 </body>
 </html>
