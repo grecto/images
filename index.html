@@ -574,12 +574,14 @@
 
         /* Login Page Styles */
         #login-page {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect fill="%23123"/></svg>');
-            background-size: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+        position: fixed;
+        inset: 0; /* top:0; right:0; bottom:0; left:0 */
+        z-index: 5000; /* higher than navbar & all pages */
+        display: none;
+        }
+
+        #login-page.active {
+        display: flex;
         }
 
         .login-container {
