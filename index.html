@@ -47,30 +47,6 @@
             gap: 20px;
         }
 
-        .logout-button {
-            background: #D4E157;
-            color: black;
-            border: none;
-            padding: 10px 25px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: none;
-        }
-
-        .logout-button.show {
-            display: block;
-        }
-
-        .logout-button:hover {
-            background: #C0CA33;
-            transform: translateY(-2px);
-        }
-
         .hamburger {
             display: flex;
             flex-direction: column;
@@ -572,92 +548,6 @@
             transform: scale(1.1);
         }
 
-        /* Login Page Styles */
-        #login-page {
-        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect fill="%23123"/></svg>'); 
-        background-size: cover;
-        position: fixed;
-        inset: 0; /* top:0; right:0; bottom:0; left:0 */
-        z-index: 5000; /* higher than navbar & all pages */
-        display: none;
-        align-items: center; 
-        justify-content: center; 
-        min-height: 100vh;
-        }
-
-        #login-page.active {
-        display: flex;
-        }
-
-        .login-container {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 50px;
-            border-radius: 15px;
-            border: 2px solid #D4E157;
-            width: 400px;
-            max-width: 90%;
-        }
-
-        .login-title {
-            color: #D4E157;
-            font-size: 36px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #D4E157;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #D4E157;
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .login-button {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            background: #D4E157;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .login-button:hover {
-            background: #C0CA33;
-            transform: translateY(-2px);
-        }
-
-        .error-message {
-            color: #ff6b6b;
-            text-align: center;
-            margin-top: 15px;
-            display: none;
-        }
-
         @media (max-width: 768px) {
             .nav-menu {
                 width: 250px;
@@ -710,7 +600,6 @@
         <button class="nav-button" onclick="showPage('gallery-page')">GALLERY PAGE</button>
         <button class="nav-button" onclick="showPage('resources-page')">RESOURCES PAGE</button>
         <button class="nav-button" onclick="showPage('teams-page')">MEET OUR TEAM</button>
-        <button class="nav-button" onclick="handleLogout()" style="margin-top: 20px; border-top: 2px solid rgba(212, 225, 87, 0.3); padding-top: 20px;">LOGOUT</button>
     </div>
 
     <!-- Homepage -->
@@ -1068,9 +957,9 @@
                     <div class="member-photo">
                         <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 3"> -->
                     </div>
-                    <div class="member-name">Paul Justine Caimpon</div>
+                    <div class="member-name">Jhoje Jake Carballo</div>
                     <div class="member-role">Content Writer</div>
-                    <a href="mailto:member3@example.com" class="member-email">caimponpt@students.nu-fairview.edu.ph</a>
+                    <a href="mailto:member3@example.com" class="member-email">carballojm@students.nu-fairview.edu.ph</a>
                 </div>
 
                 <!-- Team Member 4 -->
@@ -1088,9 +977,9 @@
                     <div class="member-photo">
                         <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 5"> -->
                     </div>
-                    <div class="member-name">Jhoje Jake Carballo</div>
+                    <div class="member-name">Paul Justine Caimpon</div>
                     <div class="member-role">Web Developer</div>
-                    <a href="mailto:member5@example.com" class="member-email">carballojm@students.nu-fairview.edu.ph</a>
+                    <a href="mailto:member5@example.com" class="member-email">caimponpt@students.nu-fairview.edu.ph</a>
                 </div>
             </div>
             
@@ -1099,29 +988,7 @@
         </div>
     </div>
 
-    <!-- Login Page -->
-    <!-- TO CHANGE LOGIN BACKGROUND: Add your image URL in the style attribute below -->
-    <div id="login-page" class="page active" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('YOUR_LOGIN_BACKGROUND_IMAGE_URL_HERE');">
-        <div class="login-container">
-            <h1 class="login-title">Login</h1>
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="login-button">Login</button>
-                <div class="error-message" id="errorMessage">Invalid username or password!</div>
-            </form>
-        </div>
-    </div>
-
     <script>
-        // Track login state
-        let isLoggedIn = false;
 
         function toggleMenu() {
             const hamburger = document.querySelector('.hamburger');
@@ -1130,23 +997,7 @@
             navMenu.classList.toggle('active');
         }
 
-        function updateNavbarVisibility() {
-            const navbar = document.getElementById('mainNavbar');
-            const loginPage = document.getElementById('login-page');
-            
-            if (loginPage.classList.contains('active')) {
-                navbar.classList.add('hide');
-            } else {
-                navbar.classList.remove('hide');
-            }
-        }
-
         function showPage(pageId) {
-            // Check if user is logged in
-            if (!isLoggedIn && pageId !== 'login-page') {
-                alert('Please login first to access this page.');
-                return;
-            }
 
             // Hide all pages
             const pages = document.querySelectorAll('.page');
@@ -1159,12 +1010,6 @@
             buttons.forEach(button => {
                 button.classList.remove('active');
             });
-
-            // Hide login page unless explicitly showing it
-            const loginPage = document.getElementById('login-page');
-            if (loginPage) {
-                loginPage.classList.remove('active');
-            }
 
             // Show selected page
             const selectedPage = document.getElementById(pageId);
@@ -1190,9 +1035,6 @@
                 }
             });
 
-            // Update navbar visibility
-            updateNavbarVisibility();
-
             // Close menu after selection
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
@@ -1202,68 +1044,7 @@
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function handleLogin(event) {
-            event.preventDefault();
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
-            
-            // Check credentials
-            if (username === 'admin' && password === 'admin123') {
-                isLoggedIn = true;
-                
-                // Show success message
-                alert('Login successful! Welcome, Admin.');
-                errorMessage.style.display = 'none';
-                document.getElementById('loginForm').reset();
-                
-                // Redirect to homepage
-                showPage('homepage');
-            } else {
-                errorMessage.style.display = 'block';
-            }
-        }
-
-        function handleLogout() {
-            if (confirm('Are you sure you want to logout?')) {
-                isLoggedIn = false;
-                
-                // Close hamburger menu
-                const hamburger = document.querySelector('.hamburger');
-                const navMenu = document.querySelector('.nav-menu');
-                if (hamburger) hamburger.classList.remove('active');
-                if (navMenu) navMenu.classList.remove('active');
-                
-                // Go back to login page
-                showPage('login-page');
-                
-                // Clear login form
-                document.getElementById('loginForm').reset();
-                
-                alert('You have been logged out successfully.');
-            }
-        }
-
-        // Ensure the page loads with login page active
-        window.addEventListener('load', function() {
-            const loginPage = document.getElementById('login-page');
-            if (loginPage && !loginPage.classList.contains('active')) {
-                loginPage.classList.add('active');
-            }
-            
-            // Hide all other pages
-            const allPages = document.querySelectorAll('.page');
-            allPages.forEach(page => {
-                if (page.id !== 'login-page') {
-                    page.classList.remove('active');
-                }
-            });
-            
-            // Update navbar visibility on load
-            updateNavbarVisibility();
-        });
     </script>
 </body>
 </html>
