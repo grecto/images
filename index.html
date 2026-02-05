@@ -1153,12 +1153,17 @@
                 button.classList.remove('active');
             });
 
+            // Hide login page unless explicitly showing it
+            const loginPage = document.getElementById('login-page');
+            if (loginPage) {
+                loginPage.classList.remove('active');
+            }
+
             // Show selected page
             const selectedPage = document.getElementById(pageId);
             if (selectedPage) {
                 selectedPage.classList.add('active');
             }
-
             // Find and activate the correct button
             buttons.forEach(button => {
                 const buttonText = button.textContent.toLowerCase().trim();
