@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jose Rizal - Interactive Educational Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar - Hamburger Menu */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar.hide {
+            display: none;
+        }
+
+        .logo {
+            color: #D4E157;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout-button {
+            background: #D4E157;
+            color: black;
+            border: none;
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: none;
+        }
+
+        .logout-button.show {
+            display: block;
+        }
+
+        .logout-button:hover {
+            background: #C0CA33;
+            transform: translateY(-2px);
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: #D4E157;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 80px 0 20px 0;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-button {
+            background: transparent;
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: left;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-button:hover {
+            background: rgba(212, 225, 87, 0.1);
+            border-left-color: #D4E157;
+            color: #D4E157;
+        }
+
+        .nav-button.active {
+            background: rgba(212, 225, 87, 0.2);
+            color: #D4E157;
+            border-left-color: #D4E157;
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Homepage Styles */
+        #homepage {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .home-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .home-left-image {
+            position: sticky;
+            top: 100px;
+        }
+
+        .rizal-portrait {
+            width: 100%;
+            height: 500px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 3px solid #D4E157;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rizal-portrait img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .home-right-content {
+            flex: 1;
+        }
+
+        .home-title {
+            font-size: 48px;
+            color: #D4E157;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .home-subtitle {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .intro-section {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .intro-section h2 {
+            color: #D4E157;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .intro-section p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .themes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .theme-card {
+            background: rgba(212, 225, 87, 0.2);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .theme-card h3 {
+            color: #D4E157;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        /* Works Page Styles */
+        #works-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect fill="%23443"/></svg>');
+            background-size: cover;
+        }
+
+        .works-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            color: #D4E157;
+            margin-bottom: 30px;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .works-section {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .works-section h2 {
+            color: #D4E157;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .works-section ul {
+            list-style: none;
+        }
+
+        .works-section li {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .works-section li strong {
+            color: #D4E157;
+        }
+
+        /* Analysis Page Styles */
+        #analysis-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect fill="%23234"/></svg>');
+            background-size: cover;
+        }
+
+        .analysis-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .guide-questions {
+            background: rgba(33, 150, 243, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .guide-questions h2 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open] summary span:last-child {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+        }
+
+        details summary span:last-child {
+            transition: transform 0.3s ease;
+        }
+
+        details summary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
+        .relevance-section {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .relevance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* Gallery Page Styles */
+        #gallery-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect fill="%23555"/></svg>');
+            background-size: cover;
+        }
+
+        .gallery-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-item {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 300px;
+            background: rgba(212, 225, 87, 0.2);
+            border: 2px dashed #D4E157;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item h3 {
+            color: #D4E157;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Resources Page Styles */
+        #resources-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect fill="%23345"/></svg>');
+            background-size: cover;
+        }
+
+        .resources-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .resources-section {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .resources-section h2 {
+            color: #D4E157;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .resources-section ul {
+            list-style: none;
+        }
+
+        .resources-section li {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+            padding-left: 0px;
+            position: relative;
+        }
+
+        .resources-section a {
+            color: #D4E157;
+            text-decoration: none;
+            word-break: break-all;
+            display: inline-block;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+
+        .resources-section a:hover {
+            color: #C0CA33;
+            text-decoration: underline;
+        }
+
+        /* Teams Page Styles */
+        #teams-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect fill="%23246"/></svg>');
+            background-size: cover;
+        }
+
+        .teams-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .team-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .team-member {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .member-photo {
+            width: 200px;
+            height: 200px;
+            background: rgba(212, 225, 87, 0.2);
+            border: 3px solid #D4E157;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-name {
+            color: #D4E157;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .member-role {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .social-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(212, 225, 87, 0.2);
+            border: 3px solid #D4E157;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: #D4E157;
+            transform: scale(1.1);
+        }
+
+        /* Login Page Styles */
+        #login-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"><rect fill="%23123"/></svg>');
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 50px;
+            border-radius: 15px;
+            border: 2px solid #D4E157;
+            width: 400px;
+            max-width: 90%;
+        }
+
+        .login-title {
+            color: #D4E157;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #D4E157;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #D4E157;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background: #D4E157;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .login-button:hover {
+            background: #C0CA33;
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                width: 250px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .home-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .home-left-image {
+                position: relative;
+                top: 0;
+            }
+
+            .rizal-portrait {
+                height: 400px;
+            }
+            
+            .themes,
+            .works-grid,
+            .relevance-grid,
+            .gallery-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar - Hamburger Menu -->
+    <nav class="navbar" id="mainNavbar">
+        <div class="logo">JOSE RIZAL</div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Navigation Menu -->
+    <div class="nav-menu">
+        <button class="nav-button" onclick="showPage('homepage')">HOME PAGE</button>
+        <button class="nav-button" onclick="showPage('works-page')">WORKS PAGE</button>
+        <button class="nav-button" onclick="showPage('analysis-page')">ANALYSIS PAGE</button>
+        <button class="nav-button" onclick="showPage('gallery-page')">GALLERY PAGE</button>
+        <button class="nav-button" onclick="showPage('resources-page')">RESOURCES PAGE</button>
+        <button class="nav-button" onclick="showPage('teams-page')">MEET OUR TEAM</button>
+        <button class="nav-button" onclick="handleLogout()" style="margin-top: 20px; border-top: 2px solid rgba(212, 225, 87, 0.3); padding-top: 20px;">LOGOUT</button>
+    </div>
+
+    <!-- Homepage -->
+    <div id="homepage" class="page" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://image2url.com/r2/default/images/1770194915918-e6c9f340-1f95-4006-bf41-ab51a77dc2fa.jpg');">
+        <div class="home-content">
+            <!-- Left Side Portrait -->
+            <div class="home-left-image">
+                <div class="rizal-portrait">
+                    <img src="https://image2url.com/r2/default/images/1770187054049-858297d1-4c65-4665-94ba-da29c26506e0.webp" alt="Jose Rizal Portrait">
+                </div>
+            </div>
+
+            <!-- Right Side Content -->
+            <div class="home-right-content">
+                <h1 class="home-title">Biography of Jose Rizal</h1>
+                <p class="home-subtitle">National hero, writer, reformist<br>
+                Advocate of education and peaceful reform<br>
+                Execution in 1896 and lasting influence</p>
+
+                <div class="intro-section" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://image2url.com/r2/default/images/1770186956386-8c8121f8-a941-4fcb-b871-4bc28e291789.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                    <h2>Rizal: Letter to the Women of Malolos (1889)</h2>
+                    <h3 style="color: #D4E157; margin-bottom: 20px;">Introduction</h3>
+                    <p>Jose Rizal's "Letter to the Women of Malolos" praises the women for courageously standing up for their right to education. He urges them to pursue learning, develop independent thinking, and not simply follow orders without question. Rizal emphasizes that educated women play a key role in nurturing informed children and contributing to the progress and freedom of the nation.</p>
+                </div>
+
+                <div class="themes">
+                    <div class="theme-card">
+                        <h3>Education</h3>
+                        <p>Women as moral educators of children.</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3>Courage</h3>
+                        <p>Courage to seek education despite colonial restrictions</p>
+                    </div>
+                    <div class="theme-card">
+                        <h3>Equality</h3>
+                        <p>Advocacy for equality and enlightenment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Works Page -->
+    <div id="works-page" class="page">
+        <div class="works-content">
+            <h1 class="section-title">Primary Sources on Jose Rizal</h1>
+            
+            <p style="font-size: 18px; margin-bottom: 30px; background: rgba(0,0,0,0.7); padding: 20px; border-radius: 10px;">
+                Primary sources related to José Rizal consist of works written by him and documents produced during his lifetime that provide direct insight into his ideals, and experiences.
+            </p>
+
+            <div class="works-grid">
+                <div class="works-section">
+                    <h2>Novels</h2>
+                    <ul>
+                        <li><strong>Noli Me Tangere (1887)</strong>, which depicts the social conditions of the Philippines and criticizes the abuses of the Spanish clergy and government.</li>
+                        <li><strong>El Filibusterismo (1891)</strong>, a sequel that presents a more radical and pessimistic view of reform and revolution.</li>
+                    </ul>
+                </div>
+
+                <div class="works-section">
+                    <h2>Importance of Rizal's Life and Works</h2>
+                    <p style="margin-bottom: 20px;">José Rizal's life and writings reflect the social realities of the Philippines under Spanish rule. His peaceful approach to reform, emphasis on education, and deep love for country continue to influence Filipino identity and nationalism. Through his works and sacrifice, Rizal remains a central figure in Philippine history and a symbol of intellectual resistance against colonial oppression.</p>
+                </div>
+
+                <div class="works-section">
+                    <h2>Essays and Political Writings</h2>
+                    <ul>
+                        <li><strong>"La Indolencia de los Filipinos,"</strong> an essay analyzing the causes of the perceived indolence of Filipinos under colonial rule.</li>
+                        <li><strong>"The Philippines a Century Hence,"</strong> a series of articles forecasting the future political development of the Philippines.</li>
+                        <li><strong>Articles published in La Solidaridad</strong>, the official publication of the Propaganda Movement.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- New Sections -->
+            <div style="margin-top: 50px;">
+                <h1 class="section-title">Rizal: Letter to the Women of Malolos (1889)</h1>
+                
+                <div class="works-grid" style="margin-top: 30px;">
+                    <div class="works-section">
+                        <h2>1. Historical Context</h2>
+                        <ul>
+                            <li><strong>Spanish colonial Philippines</strong> – The Philippines was under Spanish rule, with strict social and religious control.</li>
+                            <li><strong>Limited access to education for women</strong></li>
+                            <li><strong>Women of Malolos petitioned</strong> to open a night school to learn Spanish</li>
+                            <li><strong>Opposition from Spanish friars</strong></li>
+                            <li><strong>Rizal's support and encouragement</strong> through the letter</li>
+                        </ul>
+                    </div>
+
+                    <div class="works-section">
+                        <h2>2. Summary of the Letter</h2>
+                        <ul>
+                            <li><strong>Rizal praises the courage of the women</strong></li>
+                            <li><strong>Encourages critical thinking and self-respect</strong></li>
+                            <li><strong>Warns against blind obedience and religious abuse</strong></li>
+                            <li><strong>Emphasizes that ignorance is a form of slavery</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="works-section" style="margin-top: 30px;">
+                    <h2>3. Key Figures / Subjects</h2>
+                    <p style="margin-bottom: 20px; font-style: italic;">In-depth discussion of 2–3 key subjects:</p>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="color: #D4E157; font-size: 22px; margin-bottom: 10px;">Women of Malolos</h3>
+                        <ul>
+                            <li>Symbol of empowered Filipina women</li>
+                            <li>Challenged colonial and religious authority</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="color: #D4E157; font-size: 22px; margin-bottom: 10px;">José Rizal</h3>
+                        <ul>
+                            <li>Advocate of women's education and equality</li>
+                            <li>Believed educated women raise free-thinking citizens</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="color: #D4E157; font-size: 22px; margin-bottom: 10px;">Spanish Friars (Symbolic)</h3>
+                        <ul>
+                            <li>Representation of oppressive authority</li>
+                            <li>Control over education and beliefs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Page -->
+    <div id="analysis-page" class="page" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://image2url.com/r2/default/images/1770196071819-9d4a0255-ea47-4234-aa8a-34b9200b9942.jpg');">
+        <div class="analysis-content">
+            <h1 class="section-title">Rizal: Letter to the Women of Malolos (1889)</h1>
+
+            <div class="guide-questions">
+                <h2>Guide Questions</h2>
+                
+                <div style="margin-bottom: 25px;">
+                    <details style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px; cursor: pointer;">
+                        <summary style="font-size: 18px; font-weight: normal; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            <span>1. Why did Rizal emphasize education for women?</span>
+                            <span style="font-size: 24px;">▼</span>
+                        </summary>
+                        <p style="font-size: 16px; line-height: 1.8; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(212, 225, 87, 0.3);">
+                            Rizal believed that educated women are essential to raising free-thinking citizens and breaking the cycle of ignorance. As mothers and educators, women shape future generations, making their education critical for national progress and liberation from colonial oppression.
+                        </p>
+                    </details>
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <details style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px; cursor: pointer;">
+                        <summary style="font-size: 18px; font-weight: normal; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            <span>2. How did the women of Malolos challenge colonial norms?</span>
+                            <span style="font-size: 24px;">▼</span>
+                        </summary>
+                        <p style="font-size: 16px; line-height: 1.8; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(212, 225, 87, 0.3);">
+                            The women of Malolos defied colonial expectations by petitioning for a night school to learn Spanish, despite opposition from Spanish friars. In a patriarchal society, their bold assertion of the right to education challenged both religious and colonial authority, making them symbols of Filipino resistance.
+                        </p>
+                    </details>
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <details style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 8px; cursor: pointer;">
+                        <summary style="font-size: 18px; font-weight: normal; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                            <span>3. What dangers did Rizal see in blind obedience?</span>
+                            <span style="font-size: 24px;">▼</span>
+                        </summary>
+                        <p style="font-size: 16px; line-height: 1.8; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(212, 225, 87, 0.3);">
+                            Rizal warned that blind obedience prevents critical thinking and makes people vulnerable to exploitation. He believed unquestioning submission to authority keeps people ignorant and oppressed, emphasizing that true faith should be guided by reason, not fear.
+                        </p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="relevance-section">
+                <h2 style="color: #D4E157; margin-bottom: 20px;">Relevance to Contemporary Issues</h2>
+                <div class="relevance-grid">
+                    <div>
+                        <ul style="list-style: disc; padding-left: 25px;">
+                            <li><strong>Gender Equality</strong></li>
+                            <li><strong>Women still fight for equal access to education and leadership</strong></li>
+                            <li><strong>Critical Thinking</strong></li>
+                            <li><strong>Importance of questioning misinformation and authority</strong></li>
+                            <li><strong>Social Responsibility</strong></li>
+                            <li><strong>Role of women in shaping ethical and informed citizens</strong></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color: #D4E157; margin-bottom: 15px;">Enduring Message of the Letter</h3>
+                        <ul style="list-style: disc; padding-left: 25px;">
+                            <li>Education leads to freedom.</li>
+                            <li>Women are equal partners in nation-building</li>
+                            <li>True faith is guided by reason, not fear</li>
+                        </ul>
+                        <h3 style="color: #D4E157; margin: 20px 0 15px 0;">Inspiration for Social Action</h3>
+                        <ul style="list-style: disc; padding-left: 25px;">
+                            <li>Encourages women to speak up</li>
+                            <li>Promotes active citizenship</li>
+                            <li>Inspires support for education and empowerment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Page -->
+    <div id="gallery-page" class="page">
+        <div class="gallery-content">
+            <h1 class="section-title">Historical Images of the Women of Malolos</h1>
+            
+            <div class="gallery-grid">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <img src="https://image2url.com/r2/default/images/1770187242634-b9ea9fde-60dd-490a-9bd3-8f99ea824492.jfif" alt="Historic Malolos">
+                    </div>
+                    <h3>Historic Malolos</h3>
+                    <p>Historical photographs of Malolos, Bulacan during the Spanish colonial period</p>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <img src="https://image2url.com/r2/default/images/1770187300415-ef89f1bf-eb5e-4a0d-861f-648c300683ff.jfif" alt="Letter to the Women of Malolos">
+                    </div>
+                    <h3>Letter to the Women of Malolos</h3>
+                    <p>Original document of Rizal's letter praising the courage of Malolos women</p>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <img src="https://image2url.com/r2/default/images/1770187358250-6ec8d0f8-cf8a-47ef-bfba-8e676390f1f2.jfif" alt="The Women of Malolos">
+                    </div>
+                    <h3>The Women of Malolos</h3>
+                    <p>Portraits and photographs of the brave women who fought for education</p>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <img src="https://image2url.com/r2/default/images/1770187428092-f493a65b-d41f-46b2-8c1e-d2caba4a7930.jpg" alt="Jose Rizal">
+                    </div>
+                    <h3>Jose Rizal</h3>
+                    <p>Philippine national hero and advocate for education and reform</p>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <img src="https://image2url.com/r2/default/images/1770187458538-c70c6687-975d-4f5e-a0b4-144ed9bafa33.jpg" alt="Education in Colonial Philippines">
+                    </div>
+                    <h3>Education in Colonial Philippines</h3>
+                    <p>Images of schools and educational institutions during Spanish rule</p>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <img src="https://image2url.com/r2/default/images/1770187544135-79417f95-3261-45ef-998d-4b91e5cdf74e.jpg" alt="Filipino Women's Empowerment">
+                    </div>
+                    <h3>Filipino Women's Empowerment</h3>
+                    <p>Historical documentation of the women's rights movement in the Philippines</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resources Page -->
+    <div id="resources-page" class="page" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://image2url.com/r2/default/images/1770196279080-e07a33f4-8ee5-4988-b608-9e671a613dee.jpg');">
+        <div class="resources-content">
+            <h1 class="section-title">Resources</h1>
+
+            <div class="resources-section">
+                <h2>1. Primary Sources</h2>
+                <ul>
+                    <li><strong>Full text of Letter to the Women of Malolos</strong><br>
+                    <a href="https://www.facebook.com/share/p/1HGFv6wuvp/" target="_blank">https://www.facebook.com/share/p/1HGFv6wuvp/</a></li>
+                    
+                    <li><strong>English translations</strong><br>
+                    <a href="https://www.studocu.com/ph/document/de-la-salle-lipa/bachelor-of-science-in-accountancy/to-the-young-woman-of-malolos/48096719" target="_blank">https://www.studocu.com/ph/document/de-la-salle-lipa/bachelor-of-science-in-accountancy/to-the-young-woman-of-malolos/48096719</a></li>
+                    
+                    <li><strong>Rizal's letters and essays</strong><br>
+                    <a href="https://www.academia.edu/113999121/JOSE_RIZALS_LETTER_TO_THE_WOMEN_OF_MALOLOS" target="_blank">https://www.academia.edu/113999121/JOSE_RIZALS_LETTER_TO_THE_WOMEN_OF_MALOLOS</a></li>
+                </ul>
+            </div>
+
+            <div class="resources-section">
+                <h2>2. Scholarly Articles</h2>
+                <ul>
+                    <li><strong>Academic studies on Rizal and women's education</strong><br>
+                    <a href="https://www.researchgate.net/publication/391861395_Silenced_Voices_A_Study_On_Women's_Oppression_During_The_Time_Of_Jose_Rizal_And_Its_Echoes_In_Today's_Struggles_For_Gender_Equality_In_The_Philippines" target="_blank">https://www.researchgate.net/publication/391861395_Silenced_Voices_A_Study_On_Women's_Oppression...</a></li>
+                    
+                    <li><strong>Gender studies related to colonial Philippines</strong><br>
+                    <a href="https://www.researchgate.net/publication/364318364_Filipinising_colonial_gender_values_A_history_of_gender_formation_in_Philippine_higher_education" target="_blank">https://www.researchgate.net/publication/364318364_Filipinising_colonial_gender_values...</a></li>
+                </ul>
+            </div>
+
+            <div class="resources-section">
+                <h2>3. Other Relevant Websites</h2>
+                <ul>
+                    <li><strong>National Historical Commission of the Philippines</strong><br>
+                    <a href="https://philhistoricsites.nhcp.gov.ph/registry_database/jose-rizal-1861-1896-7/" target="_blank">https://philhistoricsites.nhcp.gov.ph/registry_database/jose-rizal-1861-1896-7/</a></li>
+                    
+                    <li><strong>Official Rizal websites</strong><br>
+                    <a href="https://www.joserizal.com/" target="_blank">https://www.joserizal.com/</a></li>
+                    
+                    <li><strong>Philippine history and culture portals</strong><br>
+                    <a href="https://www.britannica.com/place/Philippines" target="_blank">https://www.britannica.com/place/Philippines</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teams Page -->
+    <div id="teams-page" class="page">
+        <div class="teams-content">
+            <div class="team-header">
+                <h1 class="section-title">Meet The Team</h1>
+                <p style="font-size: 20px; color: #D4E157;">The dedicated team behind this educational project</p>
+            </div>
+
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-member">
+                    <div class="member-photo">
+                        <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 1"> -->
+                    </div>
+                    <div class="member-name">Member Name 1</div>
+                    <div class="member-role">Project Leader</div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="team-member">
+                    <div class="member-photo">
+                        <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 2"> -->
+                    </div>
+                    <div class="member-name">Member Name 2</div>
+                    <div class="member-role">Content Researcher</div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="team-member">
+                    <div class="member-photo">
+                        <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 3"> -->
+                    </div>
+                    <div class="member-name">Member Name 3</div>
+                    <div class="member-role">Web Designer</div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="team-member">
+                    <div class="member-photo">
+                        <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 4"> -->
+                    </div>
+                    <div class="member-name">Member Name 4</div>
+                    <div class="member-role">Historical Analyst</div>
+                </div>
+
+                <!-- Team Member 5 -->
+                <div class="team-member">
+                    <div class="member-photo">
+                        <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 5"> -->
+                    </div>
+                    <div class="member-name">Member Name 5</div>
+                    <div class="member-role">Media Specialist</div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://facebook.com" target="_blank" class="social-icon" title="Facebook">
+                    📘
+                </a>
+                <a href="https://youtube.com" target="_blank" class="social-icon" title="YouTube">
+                    📺
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <!-- TO CHANGE LOGIN BACKGROUND: Add your image URL in the style attribute below -->
+    <div id="login-page" class="page active" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('YOUR_LOGIN_BACKGROUND_IMAGE_URL_HERE');">
+        <div class="login-container">
+            <h1 class="login-title">Login</h1>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-button">Login</button>
+                <div class="error-message" id="errorMessage">Invalid username or password!</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Track login state
+        let isLoggedIn = false;
+
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        function updateNavbarVisibility() {
+            const navbar = document.getElementById('mainNavbar');
+            const loginPage = document.getElementById('login-page');
+            
+            if (loginPage.classList.contains('active')) {
+                navbar.classList.add('hide');
+            } else {
+                navbar.classList.remove('hide');
+            }
+        }
+
+        function showPage(pageId) {
+            // Check if user is logged in
+            if (!isLoggedIn && pageId !== 'login-page') {
+                alert('Please login first to access this page.');
+                return;
+            }
+
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+
+            // Find and activate the correct button
+            buttons.forEach(button => {
+                const buttonText = button.textContent.toLowerCase().trim();
+                
+                if (pageId === 'homepage' && buttonText === 'home page') {
+                    button.classList.add('active');
+                } else if (pageId === 'works-page' && buttonText === 'works page') {
+                    button.classList.add('active');
+                } else if (pageId === 'analysis-page' && buttonText === 'analysis page') {
+                    button.classList.add('active');
+                } else if (pageId === 'gallery-page' && buttonText === 'gallery page') {
+                    button.classList.add('active');
+                } else if (pageId === 'resources-page' && buttonText === 'resources page') {
+                    button.classList.add('active');
+                } else if (pageId === 'teams-page' && buttonText === 'meet our team') {
+                    button.classList.add('active');
+                }
+            });
+
+            // Update navbar visibility
+            updateNavbarVisibility();
+
+            // Close menu after selection
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            if (hamburger) hamburger.classList.remove('active');
+            if (navMenu) navMenu.classList.remove('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Check credentials
+            if (username === 'admin' && password === 'admin123') {
+                isLoggedIn = true;
+                
+                // Show success message
+                alert('Login successful! Welcome, Admin.');
+                errorMessage.style.display = 'none';
+                document.getElementById('loginForm').reset();
+                
+                // Redirect to homepage
+                showPage('homepage');
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                isLoggedIn = false;
+                
+                // Close hamburger menu
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                if (hamburger) hamburger.classList.remove('active');
+                if (navMenu) navMenu.classList.remove('active');
+                
+                // Go back to login page
+                showPage('login-page');
+                
+                // Clear login form
+                document.getElementById('loginForm').reset();
+                
+                alert('You have been logged out successfully.');
+            }
+        }
+
+        // Ensure the page loads with login page active
+        window.addEventListener('load', function() {
+            const loginPage = document.getElementById('login-page');
+            if (loginPage && !loginPage.classList.contains('active')) {
+                loginPage.classList.add('active');
+            }
+            
+            // Hide all other pages
+            const allPages = document.querySelectorAll('.page');
+            allPages.forEach(page => {
+                if (page.id !== 'login-page') {
+                    page.classList.remove('active');
+                }
+            });
+            
+            // Update navbar visibility on load
+            updateNavbarVisibility();
+        });
+    </script>
+</body>
+</html>
