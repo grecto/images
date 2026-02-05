@@ -112,6 +112,7 @@
             flex-direction: column;
             padding: 80px 0 20px 0;
             box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
         }
 
         .nav-menu.active {
@@ -154,6 +155,10 @@
 
         .page.active {
             display: block;
+        }
+
+        #login-page.active {
+            padding-top: 0;
         }
 
         /* Homepage Styles */
@@ -527,7 +532,21 @@
         .member-role {
             color: #fff;
             font-size: 16px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .member-email {
+            color: #D4E157;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+
+        .member-email:hover {
+            color: #C0CA33;
+            text-decoration: underline;
         }
 
         .social-links {
@@ -1011,7 +1030,8 @@
     </div>
 
     <!-- Teams Page -->
-    <div id="teams-page" class="page">
+    <!-- TO CHANGE TEAMS BACKGROUND: Add your image URL in the style attribute below -->
+    <div id="teams-page" class="page" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('YOUR_TEAMS_BACKGROUND_IMAGE_URL_HERE');">
         <div class="teams-content">
             <div class="team-header">
                 <h1 class="section-title">Meet The Team</h1>
@@ -1025,7 +1045,8 @@
                         <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 1"> -->
                     </div>
                     <div class="member-name">Member Name 1</div>
-                    <div class="member-role">Project Leader</div>
+                    <div class="member-role">Project Manager</div>
+                    <a href="mailto:member1@example.com" class="member-email">member1@example.com</a>
                 </div>
 
                 <!-- Team Member 2 -->
@@ -1034,7 +1055,8 @@
                         <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 2"> -->
                     </div>
                     <div class="member-name">Member Name 2</div>
-                    <div class="member-role">Content Researcher</div>
+                    <div class="member-role">Researcher</div>
+                    <a href="mailto:member2@example.com" class="member-email">member2@example.com</a>
                 </div>
 
                 <!-- Team Member 3 -->
@@ -1043,7 +1065,8 @@
                         <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 3"> -->
                     </div>
                     <div class="member-name">Member Name 3</div>
-                    <div class="member-role">Web Designer</div>
+                    <div class="member-role">Content Writer</div>
+                    <a href="mailto:member3@example.com" class="member-email">member3@example.com</a>
                 </div>
 
                 <!-- Team Member 4 -->
@@ -1052,7 +1075,8 @@
                         <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 4"> -->
                     </div>
                     <div class="member-name">Member Name 4</div>
-                    <div class="member-role">Historical Analyst</div>
+                    <div class="member-role">Web Designer</div>
+                    <a href="mailto:member4@example.com" class="member-email">member4@example.com</a>
                 </div>
 
                 <!-- Team Member 5 -->
@@ -1061,7 +1085,8 @@
                         <!-- Add image URL here: <img src="YOUR_IMAGE_URL" alt="Member 5"> -->
                     </div>
                     <div class="member-name">Member Name 5</div>
-                    <div class="member-role">Media Specialist</div>
+                    <div class="member-role">Web Developer</div>
+                    <a href="mailto:member5@example.com" class="member-email">member5@example.com</a>
                 </div>
             </div>
 
