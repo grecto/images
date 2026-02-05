@@ -14,7 +14,9 @@
         body {
             font-family: 'Georgia', serif;
             color: white;
+            overflow-x: hidden; /* only horizontal scroll hidden */
             overflow-y: auto; /* allow vertical scrolling */
+            height: 100%;       /* ensures proper height for scroll */
         }
 
         /* Navigation Bar - Hamburger Menu */
@@ -1001,7 +1003,12 @@
             const navMenu = document.querySelector('.nav-menu');
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
-            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+            // Lock only when menu is active
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden'; // temporary lock when menu is open
+            } else {
+                document.body.style.overflow = 'auto'; // unlock when menu closes
+            }
         }
 
         function showPage(pageId) {
