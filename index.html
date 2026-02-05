@@ -15,6 +15,7 @@
             font-family: 'Georgia', serif;
             color: white;
             overflow-x: hidden;
+            overflow-y: auto; /* allow vertical scrolling */
         }
 
         /* Navigation Bar - Hamburger Menu */
@@ -129,6 +130,8 @@
             padding-top: 60px;
             opacity: 0;
             transition: opacity 0.3s ease;
+            overflow-y: auto;  /* <--- allow vertical scrolling */
+            scroll-behavior: smooth; /* optional: smooth scrolling */
         }
 
         .page.active {
@@ -999,8 +1002,7 @@
             const navMenu = document.querySelector('.nav-menu');
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
-            document.body.style.overflow =
-            navMenu.classList.contains('active') ? 'hidden' : 'auto';
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
         }
 
         function showPage(pageId) {
